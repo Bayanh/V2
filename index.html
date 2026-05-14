@@ -110,13 +110,14 @@
         <div class="upload-screen">
             <div class="upload-icon">🎵</div>
             <h3>Thêm bài hát mới</h3>
-            <p>Tải các tệp âm thanh (mp3, m4a, flac, wav...) từ thiết bị của bạn để lưu trữ và phát ngoại tuyến.</p>
+            <p>Tải các tệp âm thanh từ thiết bị của bạn để lưu trữ và phát ngoại tuyến.</p>
             
             <div class="upload-btn" onclick="document.getElementById('file-upload').click()">
                 ➕ Chọn file nhạc
             </div>
-            <!-- Bắt tất cả định dạng âm thanh -->
-            <input type="file" id="file-upload" accept="audio/*" style="display: none;">
+            
+            <!-- ĐÃ SỬA DÒNG NÀY: Ép trình duyệt cho phép chọn mọi loại file âm thanh -->
+            <input type="file" id="file-upload" accept=".mp3, .m4a, .wav, .flac, audio/*" style="display: none;">
         </div>
     </div>
 
