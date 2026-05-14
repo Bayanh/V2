@@ -23,63 +23,51 @@
             padding-bottom: 140px; 
         }
 
-        header {
-            background-color: var(--card-bg);
-            padding: 20px 20px 15px;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            box-shadow: 0 1px 0 rgba(0,0,0,0.05);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
+        header { background-color: var(--card-bg); padding: 20px 20px 15px; position: sticky; top: 0; z-index: 100; box-shadow: 0 1px 0 rgba(0,0,0,0.05); display: flex; justify-content: space-between; align-items: center; }
         header h1 { margin: 0; font-size: 28px; font-weight: 700; transition: 0.3s; }
         .profile-pic { width: 36px; height: 36px; background-color: #ccc; background-image: url('https://ui-avatars.com/api/?name=B&background=random'); background-size: cover; border-radius: 50%; }
         
         .container { padding: 15px; display: none; }
         .container.active { display: block; }
-
         .section-title { font-size: 18px; font-weight: 700; margin: 10px 0 15px 5px; }
 
-        /* Giao diện trang tải nhạc */
-        .upload-screen {
-            background-color: var(--card-bg);
-            border-radius: 16px;
-            padding: 40px 20px;
-            text-align: center;
-            box-shadow: 0 2px 12px rgba(0,0,0,0.05);
-            margin-top: 20px;
-        }
-
+        /* Màn hình Upload */
+        .upload-screen { background-color: var(--card-bg); border-radius: 16px; padding: 40px 20px; text-align: center; box-shadow: 0 2px 12px rgba(0,0,0,0.05); margin-top: 20px; }
         .upload-icon { font-size: 60px; margin-bottom: 15px; }
         .upload-screen h3 { margin: 0 0 10px 0; font-size: 20px; }
         .upload-screen p { color: var(--text-muted); font-size: 14px; margin-bottom: 25px; line-height: 1.5; }
-
         .upload-btn { background-color: var(--primary); color: white; padding: 14px 24px; border-radius: 12px; font-size: 16px; font-weight: 600; cursor: pointer; box-shadow: 0 4px 10px rgba(250, 36, 60, 0.3); transition: transform 0.1s; display: inline-block; }
         .upload-btn:active { transform: scale(0.97); }
 
-        /* Giao diện danh sách nhạc */
+        /* Danh sách nhạc */
         .list-container { background-color: var(--card-bg); border-radius: 16px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.04); min-height: 100px; }
         .list-item { padding: 12px 16px; border-bottom: 1px solid var(--border-color); display: flex; align-items: center; gap: 15px; cursor: pointer; transition: background-color 0.2s; }
         .list-item:active { background-color: #f0f0f5; }
         .list-item:last-child { border-bottom: none; }
+        .list-item.playing { background-color: #fff0f2; } /* Hiệu ứng bài đang phát */
 
-        .track-art { width: 48px; height: 48px; background-color: #e5e5ea; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 20px; }
+        .track-art { width: 50px; height: 50px; background-color: #e5e5ea; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 20px; background-size: cover; background-position: center; flex-shrink: 0;}
         .item-info { flex: 1; overflow: hidden;}
-        .item-info h4 { margin: 0 0 4px 0; font-size: 16px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;}
+        .item-info h4 { margin: 0 0 4px 0; font-size: 16px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;}
         .item-info p { margin: 0; font-size: 13px; color: var(--text-muted); }
-        .delete-btn { font-size: 18px; color: #ff3b30; padding: 10px; z-index: 10; border-radius: 50%; } 
-        .delete-btn:active { background-color: #ffe5e5; }
+        
+        .action-btns { display: flex; gap: 5px; }
+        .icon-btn { font-size: 20px; padding: 8px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+        .icon-btn:active { background-color: #ffe5e5; }
 
-        /* Mini Player */
-        .mini-player { position: fixed; bottom: 75px; left: 10px; right: 10px; background-color: rgba(255, 255, 255, 0.95); backdrop-filter: blur(15px); padding: 10px; border-radius: 14px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); display: flex; align-items: center; gap: 12px; z-index: 99; }
-        .mini-art { width: 40px; height: 40px; background-color: var(--primary); border-radius: 6px; display: flex; align-items: center; justify-content: center; color: white; }
-        .mini-info { flex: 1; overflow: hidden; }
-        .mini-info h4 { margin: 0; font-size: 15px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .mini-info p { margin: 2px 0 0 0; font-size: 12px; color: var(--text-muted); }
-        .mini-controls { display: flex; gap: 15px; align-items: center; padding-right: 10px; font-size: 24px; cursor: pointer;}
+        /* Mini Player & Thanh Tua Nhạc */
+        .mini-player { position: fixed; bottom: 75px; left: 10px; right: 10px; background-color: rgba(255, 255, 255, 0.95); backdrop-filter: blur(15px); padding: 10px 15px; border-radius: 14px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); display: flex; align-items: center; gap: 15px; z-index: 99; }
+        .mini-art { width: 45px; height: 45px; background-color: var(--primary); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; background-size: cover; background-position: center; flex-shrink: 0;}
+        .mini-info { flex: 1; overflow: hidden; display: flex; flex-direction: column; justify-content: center;}
+        .mini-info h4 { margin: 0 0 2px 0; font-size: 15px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        
+        /* Giao diện thanh tua */
+        .seek-container { display: flex; align-items: center; gap: 8px; margin-top: 4px;}
+        .seek-bar { flex: 1; -webkit-appearance: none; height: 4px; border-radius: 2px; background: #e5e5ea; outline: none; }
+        .seek-bar::-webkit-slider-thumb { -webkit-appearance: none; width: 12px; height: 12px; border-radius: 50%; background: var(--primary); cursor: pointer; }
+        .time-display { font-size: 11px; color: var(--text-muted); font-variant-numeric: tabular-nums; min-width: 32px;}
+        
+        .mini-controls { font-size: 28px; cursor: pointer; color: var(--primary); }
 
         /* Bottom Nav */
         .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background-color: rgba(255, 255, 255, 0.9); backdrop-filter: blur(10px); display: flex; justify-content: space-around; padding: 12px 0 25px 0; border-top: 1px solid var(--border-color); z-index: 98; }
@@ -97,203 +85,266 @@
         <div class="profile-pic"></div>
     </header>
 
-    <!-- MÀN HÌNH 1: TRANG CHỦ -->
+    <!-- TRANG CHỦ -->
     <div id="tab-home" class="container active">
         <div class="section-title">Nhạc của tôi</div>
         <div class="list-container" id="song-list">
-            <!-- Danh sách bài hát sẽ được load vào đây -->
+            <!-- Load bài hát vào đây -->
         </div>
     </div>
 
-    <!-- MÀN HÌNH 2: THÊM NHẠC -->
+    <!-- THÊM NHẠC -->
     <div id="tab-add" class="container">
         <div class="upload-screen">
             <div class="upload-icon">🎵</div>
             <h3>Thêm bài hát mới</h3>
-            <p>Tải các tệp âm thanh từ thiết bị của bạn để lưu trữ và phát ngoại tuyến.</p>
-            
+            <p>Tải tệp âm thanh để phát ngoại tuyến.</p>
             <div class="upload-btn" onclick="document.getElementById('file-upload').click()">
                 ➕ Chọn file nhạc
             </div>
-            
-            <!-- ĐÃ SỬA DÒNG NÀY: Ép trình duyệt cho phép chọn mọi loại file âm thanh -->
             <input type="file" id="file-upload" accept=".mp3, .m4a, .wav, .flac, audio/*" style="display: none;">
         </div>
     </div>
 
-    <!-- Trình phát nhạc ẩn -->
+    <!-- Input ẩn để tải ảnh Cover -->
+    <input type="file" id="cover-upload" accept="image/*" style="display: none;">
+
     <audio id="audio-element"></audio>
 
-    <!-- Trình phát thu nhỏ (Mini Player) -->
+    <!-- MINI PLAYER CÓ THANH TUA -->
     <div class="mini-player">
         <div class="mini-art" id="current-art">🎵</div>
         <div class="mini-info">
             <h4 id="current-title">Chưa phát nhạc</h4>
-            <p id="current-artist">Chọn bài hát từ danh sách</p>
+            <div class="seek-container">
+                <span id="current-time" class="time-display">0:00</span>
+                <input type="range" id="seek-bar" class="seek-bar" value="0" step="1">
+                <span id="total-time" class="time-display">0:00</span>
+            </div>
         </div>
-        <div class="mini-controls">
-            <span onclick="togglePlay()" id="play-pause-btn">▶️</span>
-        </div>
+        <div class="mini-controls" onclick="togglePlay()" id="play-pause-btn">▶️</div>
     </div>
 
-    <!-- Thanh điều hướng dưới cùng -->
     <div class="bottom-nav">
         <div class="nav-item active" id="nav-btn-home" onclick="switchTab('home')">
-            <span class="nav-icon">🏠</span>
-            <span>Trang chủ</span>
+            <span class="nav-icon">🏠</span><span>Trang chủ</span>
         </div>
         <div class="nav-item" id="nav-btn-add" onclick="switchTab('add')">
-            <span class="nav-icon">➕</span>
-            <span>Thêm nhạc</span>
+            <span class="nav-icon">➕</span><span>Thêm nhạc</span>
         </div>
     </div>
 
     <script>
-        // --- 1. LOGIC CHUYỂN TRANG ---
+        // --- CHUYỂN TRANG ---
         function switchTab(tab) {
-            if (tab === 'home') {
-                document.getElementById('tab-home').classList.add('active');
-                document.getElementById('tab-add').classList.remove('active');
-                
-                document.getElementById('nav-btn-home').classList.add('active');
-                document.getElementById('nav-btn-add').classList.remove('active');
-                
-                document.getElementById('header-title').innerText = 'Trang chủ';
-            } else if (tab === 'add') {
-                document.getElementById('tab-add').classList.add('active');
-                document.getElementById('tab-home').classList.remove('active');
-                
-                document.getElementById('nav-btn-add').classList.add('active');
-                document.getElementById('nav-btn-home').classList.remove('active');
-                
-                document.getElementById('header-title').innerText = 'Thêm nhạc';
-            }
+            document.getElementById('tab-home').classList.toggle('active', tab === 'home');
+            document.getElementById('tab-add').classList.toggle('active', tab === 'add');
+            document.getElementById('nav-btn-home').classList.toggle('active', tab === 'home');
+            document.getElementById('nav-btn-add').classList.toggle('active', tab === 'add');
+            document.getElementById('header-title').innerText = tab === 'home' ? 'Trang chủ' : 'Thêm nhạc';
         }
 
-        // --- 2. KẾT NỐI Ổ CỨNG ẢO (IndexedDB) ---
+        // --- CƠ SỞ DỮ LIỆU & BIẾN TOÀN CỤC ---
         let db;
-        const request = indexedDB.open("MusicAppDB", 1);
-
-        request.onupgradeneeded = function(event) {
-            db = event.target.result;
+        let globalSongs = []; // Lưu mảng bài hát để làm tính năng tự động phát
+        let currentPlayingId = null; // Theo dõi bài nào đang phát
+        let isPlaying = false;
+        
+        const request = indexedDB.open("MusicAppDB_V2", 1);
+        request.onupgradeneeded = (e) => {
+            db = e.target.result;
             db.createObjectStore("songs", { keyPath: "id", autoIncrement: true });
         };
+        request.onsuccess = (e) => { db = e.target.result; loadSongsFromDB(); };
 
-        request.onsuccess = function(event) {
-            db = event.target.result;
-            loadSongsFromDB(); 
-        };
-
-        // --- 3. LƯU NHẠC KHI CHỌN FILE ---
-        const fileUpload = document.getElementById('file-upload');
-        fileUpload.addEventListener('change', function(event) {
-            const file = event.target.files[0];
+        // --- UPLOAD NHẠC ---
+        document.getElementById('file-upload').addEventListener('change', function(e) {
+            const file = e.target.files[0];
             if (file) {
-                // Tự động cắt bỏ đuôi file (vd: .mp3, .m4a, .wav) để lấy tên bài
                 const fileName = file.name.replace(/\.[^/.]+$/, ""); 
-                const newSong = { title: fileName, audioData: file };
-
-                const transaction = db.transaction(["songs"], "readwrite");
-                const store = transaction.objectStore("songs");
+                const newSong = { title: fileName, audioData: file, coverData: null };
                 
-                store.add(newSong).onsuccess = function() {
-                    fileUpload.value = ''; // Xóa cache input
-                    alert("Đã lưu bài hát thành công!");
-                    loadSongsFromDB(); 
-                    switchTab('home'); // Chuyển về trang chủ
+                const tx = db.transaction(["songs"], "readwrite");
+                tx.objectStore("songs").add(newSong).onsuccess = () => {
+                    this.value = ''; alert("Đã lưu bài hát!");
+                    loadSongsFromDB(); switchTab('home');
                 };
             }
         });
 
-        // --- 4. HIỂN THỊ DANH SÁCH NHẠC RA MÀN HÌNH ---
+        // --- RENDER DANH SÁCH NHẠC ---
         const songList = document.getElementById('song-list');
-        
         function loadSongsFromDB() {
-            const transaction = db.transaction(["songs"], "readonly");
-            const store = transaction.objectStore("songs");
-            const getAllRequest = store.getAll();
-
-            getAllRequest.onsuccess = function() {
-                const songs = getAllRequest.result;
+            db.transaction(["songs"], "readonly").objectStore("songs").getAll().onsuccess = (e) => {
+                globalSongs = e.target.result.reverse(); // Mới nhất lên đầu
                 songList.innerHTML = ''; 
 
-                if (songs.length === 0) {
+                if (globalSongs.length === 0) {
                     songList.innerHTML = '<div class="empty-msg">Chưa có bài hát nào.<br>Hãy sang tab <b>Thêm nhạc</b> để tải lên nhé!</div>';
                     return;
                 }
 
-                // In mảng ngược để bài mới nhất hiện trên cùng
-                songs.reverse().forEach(song => {
+                globalSongs.forEach(song => {
                     const newItem = document.createElement('div');
-                    newItem.className = 'list-item';
+                    newItem.className = `list-item ${song.id === currentPlayingId ? 'playing' : ''}`;
+                    newItem.id = `song-item-${song.id}`;
                     
+                    // Tạo ảnh bìa (Nếu có ảnh tự up thì dùng, không thì dùng emoji mặc định)
+                    let bgStyle = '';
+                    let innerContent = '🎧';
+                    if (song.coverData) {
+                        const imgUrl = URL.createObjectURL(song.coverData);
+                        bgStyle = `background-image: url('${imgUrl}');`;
+                        innerContent = '';
+                    }
+
                     newItem.innerHTML = `
-                        <div class="track-art">🎧</div>
+                        <div class="track-art" style="${bgStyle}">${innerContent}</div>
                         <div class="item-info">
                             <h4>${song.title}</h4>
                             <p>Nhạc ngoại tuyến</p>
                         </div>
-                        <div class="delete-btn" onclick="deleteSong(${song.id}, event)">🗑️</div>
+                        <div class="action-btns">
+                            <div class="icon-btn" onclick="triggerCoverUpload(${song.id}, event)">🖼️</div>
+                            <div class="icon-btn" style="color: #ff3b30;" onclick="deleteSong(${song.id}, event)">🗑️</div>
+                        </div>
                     `;
 
-                    // Phát nhạc khi nhấn vào bài
-                    newItem.onclick = () => {
-                        const fileURL = URL.createObjectURL(song.audioData);
-                        playSong(fileURL, song.title, 'Nhạc ngoại tuyến', '🎧');
-                    };
-
+                    newItem.onclick = () => playSong(song.id);
                     songList.appendChild(newItem);
                 });
             };
         }
 
-        // --- 5. XÓA BÀI HÁT ---
+        // --- ĐỔI ẢNH BÌA ---
+        let editingSongId = null;
+        const coverUpload = document.getElementById('cover-upload');
+        
+        function triggerCoverUpload(id, event) {
+            event.stopPropagation(); // Không phát nhạc khi bấm nút
+            editingSongId = id;
+            coverUpload.click();
+        }
+
+        coverUpload.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file && editingSongId) {
+                const tx = db.transaction(["songs"], "readwrite");
+                const store = tx.objectStore("songs");
+                
+                store.get(editingSongId).onsuccess = (req) => {
+                    let song = req.target.result;
+                    song.coverData = file; // Lưu file ảnh vào DB
+                    
+                    store.put(song).onsuccess = () => {
+                        this.value = ''; // Reset input
+                        loadSongsFromDB(); // Cập nhật lại danh sách
+                        
+                        // Nếu bài vừa đổi ảnh đang phát thì update luôn Mini Player
+                        if(currentPlayingId === editingSongId) {
+                            const imgUrl = URL.createObjectURL(file);
+                            document.getElementById('current-art').style.backgroundImage = `url('${imgUrl}')`;
+                            document.getElementById('current-art').innerText = '';
+                        }
+                    };
+                };
+            }
+        });
+
+        // --- XÓA NHẠC ---
         function deleteSong(id, event) {
-            event.stopPropagation(); // Ngăn phát nhạc khi đang bấm nút xóa
-            if(confirm("Bạn có chắc chắn muốn xóa bài hát này khỏi máy?")) {
-                const transaction = db.transaction(["songs"], "readwrite");
-                const store = transaction.objectStore("songs");
-                store.delete(id).onsuccess = function() {
+            event.stopPropagation();
+            if(confirm("Xóa bài hát này?")) {
+                db.transaction(["songs"], "readwrite").objectStore("songs").delete(id).onsuccess = () => {
+                    if (currentPlayingId === id) { audioElement.pause(); isPlaying = false; }
                     loadSongsFromDB(); 
                 };
             }
         }
 
-        // --- 6. TRÌNH PHÁT NHẠC VÀ MINI PLAYER ---
+        // --- TRÌNH PHÁT NHẠC & TỰ ĐỘNG PHÁT ---
         const audioElement = document.getElementById('audio-element');
         const playPauseBtn = document.getElementById('play-pause-btn');
-        let isPlaying = false;
 
-        function playSong(url, title, artist, icon) {
-            audioElement.src = url;
+        function playSong(id) {
+            const songIndex = globalSongs.findIndex(s => s.id === id);
+            if (songIndex === -1) return;
+            
+            const song = globalSongs[songIndex];
+            currentPlayingId = song.id;
+
+            // Xử lý Audio
+            audioElement.src = URL.createObjectURL(song.audioData);
             audioElement.play();
             isPlaying = true;
-            document.getElementById('current-title').innerText = title;
-            document.getElementById('current-artist').innerText = artist;
-            document.getElementById('current-art').innerText = icon;
             playPauseBtn.innerText = '⏸️'; 
+
+            // Cập nhật giao diện Mini Player
+            document.getElementById('current-title').innerText = song.title;
+            
+            const miniArt = document.getElementById('current-art');
+            if (song.coverData) {
+                miniArt.style.backgroundImage = `url('${URL.createObjectURL(song.coverData)}')`;
+                miniArt.innerText = '';
+            } else {
+                miniArt.style.backgroundImage = 'none';
+                miniArt.innerText = '🎵';
+            }
+
+            // Đổi màu bài đang phát
+            document.querySelectorAll('.list-item').forEach(el => el.classList.remove('playing'));
+            document.getElementById(`song-item-${song.id}`).classList.add('playing');
         }
 
         function togglePlay() {
-            if (audioElement.src) {
-                if (isPlaying) {
-                    audioElement.pause();
-                    playPauseBtn.innerText = '▶️';
-                    isPlaying = false;
-                } else {
-                    audioElement.play();
-                    playPauseBtn.innerText = '⏸️';
-                    isPlaying = true;
-                }
-            } else {
-                alert("Hãy về Trang chủ và chọn một bài hát từ danh sách!");
-            }
+            if (!audioElement.src) return alert("Chọn bài hát trước!");
+            isPlaying ? audioElement.pause() : audioElement.play();
+            isPlaying = !isPlaying;
+            playPauseBtn.innerText = isPlaying ? '⏸️' : '▶️';
         }
 
-        audioElement.onended = function() {
-            playPauseBtn.innerText = '▶️';
-            isPlaying = false;
+        // TỰ ĐỘNG CHUYỂN BÀI KHI HẾT
+        audioElement.onended = () => {
+            const currentIndex = globalSongs.findIndex(s => s.id === currentPlayingId);
+            if (globalSongs.length > 0) {
+                // Lấy bài tiếp theo. Nếu là bài cuối cùng thì vòng lại bài đầu (index 0)
+                let nextIndex = currentIndex + 1;
+                if (nextIndex >= globalSongs.length) nextIndex = 0; 
+                
+                playSong(globalSongs[nextIndex].id);
+            }
         };
+
+        // --- LOGIC THANH TUA (SEEK BAR) ---
+        const seekBar = document.getElementById('seek-bar');
+        const currentTimeEl = document.getElementById('current-time');
+        const totalTimeEl = document.getElementById('total-time');
+
+        // Hàm format thời gian (giây -> phút:giây)
+        function formatTime(seconds) {
+            if (isNaN(seconds)) return "0:00";
+            let min = Math.floor(seconds / 60);
+            let sec = Math.floor(seconds % 60);
+            return `${min}:${sec < 10 ? '0' + sec : sec}`;
+        }
+
+        // Khi load xong nhạc -> cập nhật thời lượng tối đa
+        audioElement.addEventListener('loadedmetadata', () => {
+            seekBar.max = audioElement.duration;
+            totalTimeEl.innerText = formatTime(audioElement.duration);
+        });
+
+        // Khi nhạc đang chạy -> thanh trượt chạy theo
+        audioElement.addEventListener('timeupdate', () => {
+            seekBar.value = audioElement.currentTime;
+            currentTimeEl.innerText = formatTime(audioElement.currentTime);
+        });
+
+        // Khi người dùng kéo thanh tua -> đổi thời gian nhạc
+        seekBar.addEventListener('input', () => {
+            audioElement.currentTime = seekBar.value;
+        });
+
     </script>
 </body>
 </html>
