@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>App Nghe Nhạc Offline</title>
+    <style>
+        :root {
+            --bg-color: #f2f2f7;
+            --card-bg: #ffffff;
+            --primary: #fa243c; 
+            --text-main: #1c1c1e;
+            --text-muted: #8e8e93;
+            --border-color: #e5e5ea;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            margin: 0;
+            padding: 0;
+            padding-bottom: 140px; 
+        }
+
+        header {
+            background-color: var(--card-bg);
+            padding: 20px 20px 15px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 1px 0 rgba(0,0,0,0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header h1 { margin: 0; font-size: 28px; font-weight: 700; transition: 0.3s; }
+        .profile-pic { width: 36px; height: 36px; background-color: #ccc; background-image: url('https://ui-avatars.com/api/?name=B&background=random'); background-size: cover; border-radius: 50%; }
+        
+        .container { padding: 15px; display: none; }
+        .container.active { display: block; }
+
+        .section-title { font-size: 18px; font-weight: 700; margin: 10px 0 15px 5px; }
+
+        /* Giao diện trang tải nhạc */
+        .upload-screen {
+            background-color: var(--card-bg);
+            border-radius: 16px;
+            padding: 40px 20px;
+            text-align: center;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+            margin-top: 20px;
+        }
+
+        .upload-icon { font-size: 60px; margin-bottom: 15px; }
+        .upload-screen h3 { margin: 0 0 10px 0; font-size: 20px; }
+        .upload-screen p { color: var(--text-muted); font-size: 14px; margin-bottom: 25px; line-height: 1.5; }
+
+        .upload-btn { background-color: var(--primary); color: white; padding: 14px 24px; border-radius: 12px; font-size: 16px; font-weight: 600; cursor: pointer; box-shadow: 0 4px 10px rgba(250, 36, 60, 0.3); transition: transform 0.1s; display: inline-block; }
+        .upload-btn:active { transform: scale(0.97); }
+
+        /* Giao diện danh sách nhạc */
+        .list-container { background-color: var(--card-bg); border-radius: 16px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.04); min-height: 100px; }
+        .list-item { padding: 12px 16px; border-bottom: 1px solid var(--border-color); display: flex; align-items: center; gap: 15px; cursor: pointer; transition: background-color 0.2s; }
+        .list-item:active { background-color: #f0f0f5; }
+        .list-item:last-child { border-bottom: none; }
+
+        .track-art { width: 48px; height: 48px; background-color: #e5e5ea; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 20px; }
+        .item-info { flex: 1; overflow: hidden;}
+        .item-info h4 { margin: 0 0 4px 0; font-size: 16px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;}
+        .item-info p { margin: 0; font-size: 13px; color: var(--text-muted); }
+        .delete-btn { font-size: 18px; color: #ff3b30; padding: 10px; z-index: 10; border-radius: 50%; } 
+        .delete-btn:active { background-color: #ffe5e5; }
+
+        /* Mini Player */
+        .mini-player { position: fixed; bottom: 75px; left: 10px; right: 10px; background-color: rgba(255, 255, 255, 0.95); backdrop-filter: blur(15px); padding: 10px; border-radius: 14px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); display: flex; align-items: center; gap: 12px; z-index: 99; }
+        .mini-art { width: 40px; height: 40px; background-color: var(--primary); border-radius: 6px; display: flex; align-items: center; justify-content: center; color: white; }
+        .mini-info { flex: 1; overflow: hidden; }
+        .mini-info h4 { margin: 0; font-size: 15px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .mini-info p { margin: 2px 0 0 0; font-size: 12px; color: var(--text-muted); }
+        .mini-controls { display: flex; gap: 15px; align-items: center; padding-right: 10px; font-size: 24px; cursor: pointer;}
+
+        /* Bottom Nav */
+        .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background-color: rgba(255, 255, 255, 0.9); backdrop-filter: blur(10px); display: flex; justify-content: space-around; padding: 12px 0 25px 0; border-top: 1px solid var(--border-color); z-index: 98; }
+        .nav-item { display: flex; flex-direction: column; align-items: center; color: var(--text-muted); font-size: 11px; cursor: pointer; flex: 1; }
+        .nav-item.active { color: var(--primary); }
+        .nav-icon { font-size: 24px; margin-bottom: 4px; }
+        
+        .empty-msg { padding: 30px 20px; text-align: center; color: var(--text-muted); font-size: 15px; line-height: 1.6;}
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1 id="header-title">Trang chủ</h1>
+        <div class="profile-pic"></div>
+    </header>
+
+    <!-- MÀN HÌNH 1: TRANG CHỦ -->
+    <div id="tab-home" class="container active">
+        <div class="section-title">Nhạc của tôi</div>
+        <div class="list-container" id="song-list">
+            <!-- Danh sách bài hát sẽ được load vào đây -->
+        </div>
+    </div>
+
+    <!-- MÀN HÌNH 2: THÊM NHẠC -->
+    <div id="tab-add" class="container">
+        <div class="upload-screen">
+            <div class="upload-icon">🎵</div>
+            <h3>Thêm bài hát mới</h3>
+            <p>Tải các tệp âm thanh (mp3, m4a, flac, wav...) từ thiết bị của bạn để lưu trữ và phát ngoại tuyến.</p>
+            
+            <div class="upload-btn" onclick="document.getElementById('file-upload').click()">
+                ➕ Chọn file nhạc
+            </div>
+            <!-- Bắt tất cả định dạng âm thanh -->
+            <input type="file" id="file-upload" accept="audio/*" style="display: none;">
+        </div>
+    </div>
+
+    <!-- Trình phát nhạc ẩn -->
+    <audio id="audio-element"></audio>
+
+    <!-- Trình phát thu nhỏ (Mini Player) -->
+    <div class="mini-player">
+        <div class="mini-art" id="current-art">🎵</div>
+        <div class="mini-info">
+            <h4 id="current-title">Chưa phát nhạc</h4>
+            <p id="current-artist">Chọn bài hát từ danh sách</p>
+        </div>
+        <div class="mini-controls">
+            <span onclick="togglePlay()" id="play-pause-btn">▶️</span>
+        </div>
+    </div>
+
+    <!-- Thanh điều hướng dưới cùng -->
+    <div class="bottom-nav">
+        <div class="nav-item active" id="nav-btn-home" onclick="switchTab('home')">
+            <span class="nav-icon">🏠</span>
+            <span>Trang chủ</span>
+        </div>
+        <div class="nav-item" id="nav-btn-add" onclick="switchTab('add')">
+            <span class="nav-icon">➕</span>
+            <span>Thêm nhạc</span>
+        </div>
+    </div>
+
+    <script>
+        // --- 1. LOGIC CHUYỂN TRANG ---
+        function switchTab(tab) {
+            if (tab === 'home') {
+                document.getElementById('tab-home').classList.add('active');
+                document.getElementById('tab-add').classList.remove('active');
+                
+                document.getElementById('nav-btn-home').classList.add('active');
+                document.getElementById('nav-btn-add').classList.remove('active');
+                
+                document.getElementById('header-title').innerText = 'Trang chủ';
+            } else if (tab === 'add') {
+                document.getElementById('tab-add').classList.add('active');
+                document.getElementById('tab-home').classList.remove('active');
+                
+                document.getElementById('nav-btn-add').classList.add('active');
+                document.getElementById('nav-btn-home').classList.remove('active');
+                
+                document.getElementById('header-title').innerText = 'Thêm nhạc';
+            }
+        }
+
+        // --- 2. KẾT NỐI Ổ CỨNG ẢO (IndexedDB) ---
+        let db;
+        const request = indexedDB.open("MusicAppDB", 1);
+
+        request.onupgradeneeded = function(event) {
+            db = event.target.result;
+            db.createObjectStore("songs", { keyPath: "id", autoIncrement: true });
+        };
+
+        request.onsuccess = function(event) {
+            db = event.target.result;
+            loadSongsFromDB(); 
+        };
+
+        // --- 3. LƯU NHẠC KHI CHỌN FILE ---
+        const fileUpload = document.getElementById('file-upload');
+        fileUpload.addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            if (file) {
+                // Tự động cắt bỏ đuôi file (vd: .mp3, .m4a, .wav) để lấy tên bài
+                const fileName = file.name.replace(/\.[^/.]+$/, ""); 
+                const newSong = { title: fileName, audioData: file };
+
+                const transaction = db.transaction(["songs"], "readwrite");
+                const store = transaction.objectStore("songs");
+                
+                store.add(newSong).onsuccess = function() {
+                    fileUpload.value = ''; // Xóa cache input
+                    alert("Đã lưu bài hát thành công!");
+                    loadSongsFromDB(); 
+                    switchTab('home'); // Chuyển về trang chủ
+                };
+            }
+        });
+
+        // --- 4. HIỂN THỊ DANH SÁCH NHẠC RA MÀN HÌNH ---
+        const songList = document.getElementById('song-list');
+        
+        function loadSongsFromDB() {
+            const transaction = db.transaction(["songs"], "readonly");
+            const store = transaction.objectStore("songs");
+            const getAllRequest = store.getAll();
+
+            getAllRequest.onsuccess = function() {
+                const songs = getAllRequest.result;
+                songList.innerHTML = ''; 
+
+                if (songs.length === 0) {
+                    songList.innerHTML = '<div class="empty-msg">Chưa có bài hát nào.<br>Hãy sang tab <b>Thêm nhạc</b> để tải lên nhé!</div>';
+                    return;
+                }
+
+                // In mảng ngược để bài mới nhất hiện trên cùng
+                songs.reverse().forEach(song => {
+                    const newItem = document.createElement('div');
+                    newItem.className = 'list-item';
+                    
+                    newItem.innerHTML = `
+                        <div class="track-art">🎧</div>
+                        <div class="item-info">
+                            <h4>${song.title}</h4>
+                            <p>Nhạc ngoại tuyến</p>
+                        </div>
+                        <div class="delete-btn" onclick="deleteSong(${song.id}, event)">🗑️</div>
+                    `;
+
+                    // Phát nhạc khi nhấn vào bài
+                    newItem.onclick = () => {
+                        const fileURL = URL.createObjectURL(song.audioData);
+                        playSong(fileURL, song.title, 'Nhạc ngoại tuyến', '🎧');
+                    };
+
+                    songList.appendChild(newItem);
+                });
+            };
+        }
+
+        // --- 5. XÓA BÀI HÁT ---
+        function deleteSong(id, event) {
+            event.stopPropagation(); // Ngăn phát nhạc khi đang bấm nút xóa
+            if(confirm("Bạn có chắc chắn muốn xóa bài hát này khỏi máy?")) {
+                const transaction = db.transaction(["songs"], "readwrite");
+                const store = transaction.objectStore("songs");
+                store.delete(id).onsuccess = function() {
+                    loadSongsFromDB(); 
+                };
+            }
+        }
+
+        // --- 6. TRÌNH PHÁT NHẠC VÀ MINI PLAYER ---
+        const audioElement = document.getElementById('audio-element');
+        const playPauseBtn = document.getElementById('play-pause-btn');
+        let isPlaying = false;
+
+        function playSong(url, title, artist, icon) {
+            audioElement.src = url;
+            audioElement.play();
+            isPlaying = true;
+            document.getElementById('current-title').innerText = title;
+            document.getElementById('current-artist').innerText = artist;
+            document.getElementById('current-art').innerText = icon;
+            playPauseBtn.innerText = '⏸️'; 
+        }
+
+        function togglePlay() {
+            if (audioElement.src) {
+                if (isPlaying) {
+                    audioElement.pause();
+                    playPauseBtn.innerText = '▶️';
+                    isPlaying = false;
+                } else {
+                    audioElement.play();
+                    playPauseBtn.innerText = '⏸️';
+                    isPlaying = true;
+                }
+            } else {
+                alert("Hãy về Trang chủ và chọn một bài hát từ danh sách!");
+            }
+        }
+
+        audioElement.onended = function() {
+            playPauseBtn.innerText = '▶️';
+            isPlaying = false;
+        };
+    </script>
+</body>
+</html>
